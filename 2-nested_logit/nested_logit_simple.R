@@ -5,6 +5,12 @@ data <- read.delim("/home/poom/Desktop/DB833/2-nested_logit/OJ300.txt")
 data <- select(data,c(15:31))
 data <- cbind(price0 = 0, data)
 
+# checking
+summary(data)
+which(is.na(data$price1))
+data <- data[complete.cases(data), ]
+cor(select(data,c(1:9)), use="complete")
+
 likelihood <- function(theta){
   # initialize parameters
   a0 <- theta[1]
@@ -20,7 +26,7 @@ likelihood <- function(theta){
   lambda2 <- theta[11]
   
   # exp(utility)
-  data$ev0 <- exp((a0 + b1*data$price0) / lambda1)
+  data$ev0 <- exp((b1*data$price0) / lambda1)
   data$ev1 <- exp((a1 + b1*data$price1) / lambda2)
   data$ev2 <- exp((a2 + b1*data$price2) / lambda2)
   data$ev3 <- exp((a3 + b1*data$price3) / lambda2)
@@ -28,7 +34,7 @@ likelihood <- function(theta){
   data$ev5 <- exp((a5 + b1*data$price5) / lambda2)
   data$ev6 <- exp((a6 + b1*data$price6) / lambda2)
   data$ev7 <- exp((a7 + b1*data$price7) / lambda2)
-  data$ev8 <- exp((b1*data$price8) / lambda2)
+  data$ev8 <- exp((a0 + b1*data$price8) / lambda2)
   
   # total utility for each nest and all nest
   data$nest1_util <- data$ev0^(lambda1-1)
@@ -55,9 +61,9 @@ likelihood <- function(theta){
   return(-sum(data$ln_p_chosen)) # minimize negative log-likelihood
 }
 
-est<-optim(c(1,2,3,4,5,6,7,8,9,0.1), likelihood, method="BFGS", hessian="TRUE") # why need BF
-#est<-optim(c(-0.094,-0.177,-0.082,-0.008,-0.118,-0.178,-0.055,1.730,-0.076,0.076,0.5), likelihood, method="SANN") # why need BFGS?
+est<-optim(c(-0.094,-0.177,-0.082,-0.008,-0.118,-0.178,-0.055,1.730,-0.076,0.076,1), likelihood, 
+           method="CG", hessian = TRUE)
 est
-# fisher_info <- solve(est$hessian)
-# prop_sigma <- sqrt(diag(fisher_info))
-# prop_sigma
+fisher_info <- solve(est$hessian)
+prop_sigma <- sqrt(diag(fisher_info))
+prop_sigma
