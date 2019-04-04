@@ -1,5 +1,5 @@
 #library(dplyr)
-data <- read.delim("/home/poom/Desktop/Untitled Folder/Yogurt.txt")
+data <- read.delim("/home/poom/Desktop/DB833/1-logit/Yogurt.txt")
 
 # Drop the columns of the dataframe
 #data <- select(data,-c(1,2,3,4,5,6,19))
