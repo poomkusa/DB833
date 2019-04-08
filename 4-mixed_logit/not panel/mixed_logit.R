@@ -46,6 +46,7 @@ likelihood <- function(theta){
   sigma_b1 <- exp(theta[7])
   cov_b1b2 <- theta[8]
   sigma_mtx <- matrix(c(sigma_b1,cov_b1b2,cov_b1b2,sigma_b2), ncol=2)
+  #simple parameters for testing
   # mu_vec <- c(theta[4], theta[4])
   # sigma_b1 <- exp(theta[5])
   # sigma_mtx <- matrix(c(sigma_b1,0,0,sigma_b1), ncol=2)
