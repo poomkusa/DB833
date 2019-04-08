@@ -49,7 +49,7 @@ likelihood <- function(theta){
   # constraint variance to positive using exp(x), but result in inf value b/c too large x.
   sigma_b1 <- exp(theta[6])
   sigma_b2 <- exp(theta[7])  
-  cov_b1b2 <- exp(theta[8])
+  cov_b1b2 <- theta[8]
   sigma_mtx <- matrix(c(sigma_b1,cov_b1b2,cov_b1b2,sigma_b2), ncol=2)
   #simple parameters for testing (same mean & var, no cov)
   # mu_vec <- c(theta[4], theta[4])
